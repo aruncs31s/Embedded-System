@@ -22,13 +22,15 @@ There will be 3 branches
 | `esp32`     | ESP32 Codes        |
 
 ##### Checking out bracnches
+
 1. Raspberry Pi branch
+
 ```bash
 git checkout pi
 ```
+
 2. Esp32 Branch
 
-```bash 
+```bash
 git checkout esp32
 ```
-
