@@ -22,11 +22,6 @@ delay(1000); // wait for a second
 }
 ```
 
-
-<video width="540" height="310" controls>
-  <source src="https://github.com/aruncs31s/Embedded_System_Kickstarter/blob/arduino/Files/led_blink.mp4?raw=true" type="video/mp4">
-</video>
-
 ##### Delay Control
 
 > 2.ino
