@@ -1,6 +1,6 @@
 # Arduino Programs
 
-##### 1.ino
+##### Led Blink
 
 ```c
 
@@ -22,7 +22,11 @@ delay(1000); // wait for a second
 }
 ```
 
-##### 2.ino
+![](Files/led_blink.mp4?raw=true)
+
+##### Delay Control
+
+> 2.ino
 
 ```c
 // Change the delay_time to make the LED Blink faster or slower
