@@ -18,10 +18,12 @@ void setup()
   }
   Serial.println("Connected!");
 
-
 }
 
 void loop()
 {
-delay(1000);
+  Serial.println("");
+  Serial.println("WiFi connected.");
+  Serial.println("IP address: ", + String(WiFi.localIP().to_string));
+  delay(1000);
 }

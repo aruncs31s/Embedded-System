@@ -148,3 +148,41 @@ if (client) {
 ```
 
 ![](./Images/led_server.png?raw=true)
+
+```html
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="data:," />
+    <style>
+      html {
+        font-family: Helvetica;
+        display: inline-block;
+        margin: 0px auto;
+        text-align: center;
+      }
+      .button {
+        background-color: #4caf50;
+        border: none;
+        color: white;
+        padding: 16px 40px;
+        text-decoration: none;
+        font-size: 30px;
+        margin: 2px;
+        cursor: pointer;
+      }
+      .button2 {
+        background-color: #555555;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>BUILTIN Led Control</h1>
+    <p>BUILTIN LED - State off</p>
+    <p>
+      <a href="/26/on"><button class="button">ON</button></a>
+    </p>
+  </body>
+</html>
+```

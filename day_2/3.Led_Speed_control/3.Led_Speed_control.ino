@@ -10,6 +10,7 @@ WiFiServer server(80);
 
 String header;
 
+int delay_time = 1000;
 String current_led_status = "off";
 int LED_BUILTIN = 2;
 
@@ -37,7 +38,7 @@ void setup()
 }
 
 void loop(){
- WiFiClient client = server.available();
+  WiFiClient client = server.available();
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 
@@ -60,15 +61,7 @@ if (client) {
             client.println("Connection: close");
             client.println();
             
-            if (header.indexOf("GET /02/on") >= 0) {
-              Serial.println("GPIO 02 on");
-              current_led_status = "on";
-              digitalWrite(LED_BUILTIN, HIGH);
-            } else if(header.indexOf("GET /02/off") >= 0) {
-              Serial.println("GPIO 02 off");
-              current_led_status = "off";
-              digitalWrite(LED_BUILTIN, LOW);
-            }             
+          v
             client.println("<!DOCTYPE html><html>");
             client.println("<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
             client.println("<link rel=\"icon\" href=\"data:,\">");
@@ -85,7 +78,10 @@ if (client) {
             } else {
               client.println("<p><a href=\"/02/off\"><button class=\"button button2\">OFF</button></a></p>");
             } 
-               
+            client.println("<p><a href=\"/02/plus\"><button class=\"button\">Plus</button></a></p>");
+            client.println("<p><a href=\"/02/minus\"><button class=\"button button2\">Minua</button></a></p>");
+
+              
             client.println("</body></html>");
             
             client.println();
@@ -102,6 +98,8 @@ if (client) {
     client.stop();
     Serial.println("Client disconnected.");
     Serial.println("");
+
   }
-  delay(1000);
+    delay(delay_time);
+
 }

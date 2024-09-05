@@ -1,42 +1,74 @@
-// source : https://randomnerdtutorials.com/esp32-web-server-arduino-ide/
+/* 
+* Author : Arun CS
+* Github : https://github.com/aruncs31/
+* URL : https://github.com/aruncs31s/ESP32_MeshNet_For_Node_To_Gateway_Communication 
+sources : https://randomnerdtutorials.com/esp-now-esp32-arduino-ide/
+
+ */
+
+
+#include <esp_now.h>
 #include <WiFi.h>
 
-// change the credential according to your needs
-const char *ssid = "802.11";
-const char *psswd = "12345678p";
+// Replace it with Router IP
+const char* ssid = "802.11";
+const char* password = "12345678p";
 
-// Set portnumber to 80
+
 WiFiServer server(80);
 
 String header;
 
-String current_led_status = "off";
-int LED_BUILTIN = 2;
+// Structure example to receive data
+// Must match the sender structure
+typedef struct Data {
+    char a[32];
+    int b;
+    float c;
+    bool d;
+} Data;
+Data received_data;
 
-unsigned long currentTime = millis();
-unsigned long previousTime = 0; 
-const long timeoutTime = 2000;
+// callback function that will be executed when data is received
+void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
 
-void setup()
-{
+  // Copy the value from source to destination
+  memcpy(&received_data, incomingData, sizeof(received_data));
+  Serial.print("Bytes received: ");
+  Serial.println(len);
+  Serial.print("Char: ");
+  Serial.println(received_data.a);
+  Serial.print("Int: ");
+  Serial.println(received_data.b);
+  Serial.print("Float: ");
+  Serial.println(received_data.c);
+  Serial.print("Bool: ");
+  Serial.println(received_data.d);
+  Serial.println();
+}
+ 
+void setup() {
   Serial.begin(9600);
+  // Set device as a Wi-Fi Station
+  WiFi.mode(WIFI_STA);
 
-  pinMode(LED_BUILTIN, OUTPUT);
-  // Connecting to Wi-Fi
-  Serial.print("Connecting to WiFi");
-  WiFi.begin(ssid, psswd);
-  while (WiFi.status() != WL_CONNECTED)
-  {
-    delay(100);
+  // Init ESP-NOW
+  if (esp_now_init() != ESP_OK) {
+    Serial.println("Error initializing ESP-NOW");
+    return;
+  }
+  // FIX: Implement Reconnection
+  WiFi.begin(ssid,password);
+    while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
     Serial.print(".");
   }
-  Serial.println("Connected!");
+  esp_now_register_recv_cb(esp_now_recv_cb_t(OnDataRecv));
 
   server.begin();
-
 }
-
-void loop(){
+ 
+void loop() {
  WiFiClient client = server.available();
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
@@ -103,5 +135,6 @@ if (client) {
     Serial.println("Client disconnected.");
     Serial.println("");
   }
-  delay(1000);
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
 }
